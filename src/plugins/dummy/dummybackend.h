@@ -40,7 +40,11 @@ class DummyBackend : public CoreBackend
 
 	Q_DISABLE_COPY(DummyBackend)
 
+#ifdef CALAMARES
+	public:
+#else
 	private:
+#endif
 		DummyBackend(QObject* parent, const QList<QVariant>& args);
 
 	public:

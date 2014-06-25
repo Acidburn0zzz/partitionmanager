@@ -17,71 +17,63 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#if !defined(COREBACKENDMANAGER__H)
+#include "backend/corebackendmanager.h"
+#include "backend/corebackend.h"
 
-#define COREBACKENDMANAGER__H
+#include "plugins/dummy/dummybackend.h"
+#include "plugins/libparted/libpartedbackend.h"
 
-#include "util/libpartitionmanagerexport.h"
-
-#ifdef CALAMARES
-#include <QtGlobal> // For Q_DECL_EXPORT
-#else
-#include <KService>
-#endif
-
-class QString;
-class QStringList;
-class CoreBackend;
+#include <QDebug>
+#include <QString>
 
 /**
-  * The backend manager class.
-  *
-  * This is basically a singleton class to give the application access to the currently
-  * selected backend and also to manage the available backend plugins.
-  * @author Volker Lanz <vl@fidra.de>
-  */
-class LIBPARTITIONMANAGERPRIVATE_EXPORT CoreBackendManager
+ * Simplified implementation which assumes the code for plugine is built inside
+ * the library itself. Using plugins this way instead of using KService has the
+ * following benefits:
+ *
+ * - No dependency on KService
+ * - Avoid having to modify the plugin install name and desktop files to avoid
+ *   clashes with an existing installation of partitionmanager
+ */
+
+CoreBackendManager::CoreBackendManager() :
+	m_Backend(NULL)
 {
-	private:
-		CoreBackendManager();
+}
 
-	public:
-		/**
-		  * @return pointer to ourselves
-		  */
-		static CoreBackendManager* self();
+CoreBackendManager* CoreBackendManager::self()
+{
+	static CoreBackendManager* instance = NULL;
 
-#ifndef CALAMARES
-		/**
-		  * @return the name of the default backend plugin
-		  */
-		static QString defaultBackendName() { return QStringLiteral("pmlibpartedbackendplugin"); }
+	if (instance == NULL)
+		instance = new CoreBackendManager;
 
-		/**
-		  * @return a list of available backend plugins
-		  */
-		KService::List list() const;
-#endif
+	return instance;
+}
 
-		/**
-		   * Loads the given backend plugin into the application.
-		   * @param name the name of the plugin to load
-		   * @return true on success
-		   */
-		bool load(const QString& name);
+bool CoreBackendManager::load(const QString& name)
+{
+	if (backend())
+		unload();
 
-		/**
-		  * Unload the current plugin.
-		  */
-		void unload();
+	m_Backend = 0;
+	if (name == "libparted")
+		m_Backend = new LibPartedBackend(0, QVariantList());
+	else if (name == "dummy")
+		m_Backend = new DummyBackend(0, QVariantList());
 
-		/**
-		  * @return a pointer to the currently loaded backend
-		  */
-		CoreBackend* backend() { return m_Backend; }
+	if (m_Backend != NULL)
+	{
+		return true;
+	}
 
-	private:
-		CoreBackend* m_Backend;
-};
+	qWarning() << "No plugin named" << name;
+	return false;
+}
 
-#endif
+void CoreBackendManager::unload()
+{
+	delete m_Backend;
+	m_Backend = NULL;
+}
+

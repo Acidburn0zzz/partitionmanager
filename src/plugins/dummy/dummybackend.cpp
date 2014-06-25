@@ -33,9 +33,13 @@
 #include <QStringList>
 
 #include <KLocalizedString>
+
+#ifndef CALAMARES
 #include <KPluginFactory>
 #include <KAboutData>
+#endif
 
+#ifndef CALAMARES
 K_PLUGIN_FACTORY(DummyBackendFactory, registerPlugin<DummyBackend>(); )
 
 static KAboutData createPluginAboutData()
@@ -53,6 +57,7 @@ static KAboutData createPluginAboutData()
 
 	return about;
 }
+#endif
 
 DummyBackend::DummyBackend(QObject*, const QList<QVariant>&) :
 	CoreBackend()

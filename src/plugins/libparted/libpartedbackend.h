@@ -56,7 +56,11 @@ class LibPartedBackend : public CoreBackend
 
 	Q_DISABLE_COPY(LibPartedBackend)
 
+#ifdef CALAMARES
+	public:
+#else
 	private:
+#endif
 		LibPartedBackend(QObject* parent, const QList<QVariant>& args);
 
 	public:

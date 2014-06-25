@@ -48,8 +48,11 @@
 #include <KLocalizedString>
 #include <KIOCore/KMountPoint>
 #include <KIOCore/KDiskFreeSpaceInfo>
+
+#ifndef CALAMARES
 #include <KPluginFactory>
 #include <KAboutData>
+#endif
 
 #include <Solid/Device>
 #include <Solid/DeviceInterface>
@@ -60,6 +63,7 @@
 #include <unistd.h>
 #include <blkid/blkid.h>
 
+#ifndef CALAMARES
 K_PLUGIN_FACTORY(LibPartedBackendFactory, registerPlugin<LibPartedBackend>(); )
 
 static KAboutData createPluginAboutData()
@@ -77,6 +81,7 @@ static KAboutData createPluginAboutData()
 
 	return about;
 }
+#endif
 
 static struct
 {
