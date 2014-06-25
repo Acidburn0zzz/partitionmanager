@@ -33,7 +33,9 @@
 #include "fs/hpfs.h"
 #include "fs/jfs.h"
 #include "fs/linuxswap.h"
+#ifndef CALAMARES
 #include "fs/luks.h"
+#endif
 #include "fs/lvm2_pv.h"
 #include "fs/nilfs2.h"
 #include "fs/ntfs.h"
@@ -70,7 +72,9 @@ void FileSystemFactory::init()
 	m_FileSystems.insert(FileSystem::Hpfs, new FS::hpfs(-1, -1, -1, QString()));
 	m_FileSystems.insert(FileSystem::Jfs, new FS::jfs(-1, -1, -1, QString()));
 	m_FileSystems.insert(FileSystem::LinuxSwap, new FS::linuxswap(-1, -1, -1, QString()));
+#ifndef CALAMARES
 	m_FileSystems.insert(FileSystem::Luks, new FS::luks(-1, -1, -1, QString()));
+#endif
 	m_FileSystems.insert(FileSystem::Lvm2_PV, new FS::lvm2_pv(-1, -1, -1, QString()));
 	m_FileSystems.insert(FileSystem::Nilfs2, new FS::nilfs2(-1, -1, -1, QString()));
 	m_FileSystems.insert(FileSystem::Ntfs, new FS::ntfs(-1, -1, -1, QString()));
@@ -96,7 +100,9 @@ void FileSystemFactory::init()
 	FS::hpfs::init();
 	FS::jfs::init();
 	FS::linuxswap::init();
+#ifndef CALAMARES
 	FS::luks::init();
+#endif
 	FS::lvm2_pv::init();
 	FS::nilfs2::init();
 	FS::ntfs::init();
@@ -139,7 +145,9 @@ FileSystem* FileSystemFactory::create(FileSystem::Type t, qint64 firstsector, qi
 		case FileSystem::Hpfs:         fs = new FS::hpfs(firstsector, lastsector, sectorsused, label); break;
 		case FileSystem::Jfs:          fs = new FS::jfs(firstsector, lastsector, sectorsused, label); break;
 		case FileSystem::LinuxSwap:    fs = new FS::linuxswap(firstsector, lastsector, sectorsused, label); break;
+#ifndef CALAMARES
 		case FileSystem::Luks:         fs = new FS::luks(firstsector, lastsector, sectorsused, label); break;
+#endif
 		case FileSystem::Lvm2_PV:      fs = new FS::lvm2_pv(firstsector, lastsector, sectorsused, label); break;
 		case FileSystem::Nilfs2:       fs = new FS::nilfs2(firstsector, lastsector, sectorsused, label); break;
 		case FileSystem::Ntfs:         fs = new FS::ntfs(firstsector, lastsector, sectorsused, label); break;

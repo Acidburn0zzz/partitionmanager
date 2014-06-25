@@ -34,7 +34,9 @@
 #include "fs/fat16.h"
 #include "fs/hfs.h"
 #include "fs/hfsplus.h"
+#ifndef CALAMARES
 #include "fs/luks.h"
+#endif
 
 #include "util/globallog.h"
 #include "util/helpers.h"
@@ -370,12 +372,14 @@ void LibPartedBackend::scanDevicePartitions(PedDevice*, Device& d, PedDisk* pedD
 		// libparted does not handle LUKS partitions
 		QString mountPoint;
 		bool mounted;
+        #ifndef CALAMARES
 		if (fs->type() == FileSystem::Luks)
 		{
 			mountPoint = FS::luks::mapperName(node);
 			mounted = (mountPoint != QString()) ? true : false;
 		}
 		else
+        #endif
 		{
 			mountPoint = mountPoints.findByDevice(node) ? mountPoints.findByDevice(node)->mountPoint() : QString();
 			mounted = ped_partition_is_busy(pedPartition);
