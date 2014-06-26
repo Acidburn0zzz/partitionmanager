@@ -82,6 +82,7 @@ set(util_SRCS
     )
 
 set(calapm_SRCS
+    CalaPM.cpp
     helpers.cpp
     corebackendmanager.cpp
     ${core_SRCS}
@@ -103,10 +104,9 @@ add_library(calapm SHARED ${calapm_SRCS})
 generate_export_header(calapm EXPORT_FILE_NAME libpartitionmanager_export.h)
 
 target_link_libraries(calapm
-    PUBLIC
+    PRIVATE
         KF5::ConfigCore
         KF5::ConfigGui
-    PRIVATE
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
@@ -124,6 +124,7 @@ set_target_properties(calapm PROPERTIES AUTOMOC TRUE)
 target_include_directories(calapm
     PUBLIC
         ${pm_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR} # For CalaPM.h
         ${pm_BASE_DIR}/lib # For fatlabel
         ${CMAKE_CURRENT_BINARY_DIR} # For libpartitionmanager_export.h
     )
