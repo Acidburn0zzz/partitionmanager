@@ -6,10 +6,16 @@ cmake_minimum_required(VERSION 2.8)
 set(pm_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 set(pm_SOURCE_DIR ${pm_BASE_DIR}/src)
 
+## ECM
+find_package(ECM 0.0.13 REQUIRED NO_MODULE)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_MODULE_PATH})
+include(KDEInstallDirs)
+include(GenerateExportHeader)
+
 # Dependencies
 find_package(Qt5 CONFIG REQUIRED Core Gui Widgets)
 
-find_package(KF5 CONFIG REQUIRED
+find_package(KF5 REQUIRED COMPONENTS
     Config
     I18n
     CoreAddons
@@ -19,12 +25,6 @@ find_package(KF5 CONFIG REQUIRED
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(BLKID REQUIRED blkid)
 pkg_check_modules(LIBATASMART REQUIRED libatasmart)
-
-## ECM
-find_package(ECM 0.0.13 REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_MODULE_PATH})
-include(KDEInstallDirs)
-include(GenerateExportHeader)
 
 ## Parted
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${pm_BASE_DIR}/cmake/modules)
