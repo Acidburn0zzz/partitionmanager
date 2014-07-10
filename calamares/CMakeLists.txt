@@ -19,7 +19,6 @@ find_package(KF5 REQUIRED COMPONENTS
     Config
     I18n
     CoreAddons
-    KIO
     Solid)
 
 find_package(PkgConfig REQUIRED)
@@ -81,6 +80,13 @@ set(util_SRCS
     ${util_DIR}/report.cpp
     )
 
+include(kio/KMountPointChecks.cmake)
+configure_file(kio/config-kmountpoint.h.in ${CMAKE_CURRENT_BINARY_DIR}/config-kmountpoint.h)
+set(kio_SRCS
+    kio/kdiskfreespaceinfo.cpp
+    kio/kmountpoint.cpp
+    )
+
 set(calapm_SRCS
     CalaPM.cpp
     helpers.cpp
@@ -91,12 +97,14 @@ set(calapm_SRCS
     ${util_SRCS}
     ${dummy_SRCS}
     ${libparted_SRCS}
+    ${kio_SRCS}
     )
 
 # Building
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/kio
     ${pm_SOURCE_DIR}
     ${pm_BASE_DIR}/lib # For fatlabel
     )
@@ -112,7 +120,6 @@ target_link_libraries(calapm
         KF5::ConfigGui
         KF5::CoreAddons
         KF5::I18n
-        KF5::KIOCore
         KF5::Solid
         libfatlabel
         ${BLKID_LIBRARIES}

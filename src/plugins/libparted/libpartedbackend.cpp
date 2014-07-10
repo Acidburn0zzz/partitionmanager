@@ -46,8 +46,14 @@
 #include <QDebug>
 
 #include <KLocalizedString>
+#ifdef CALAMARES
+// Those files are local copies to avoid the dependency on KIO
+#include <kio/kmountpoint.h>
+#include <kio/kdiskfreespaceinfo.h>
+#else
 #include <KIOCore/KMountPoint>
 #include <KIOCore/KDiskFreeSpaceInfo>
+#endif
 
 #ifndef CALAMARES
 #include <KPluginFactory>
