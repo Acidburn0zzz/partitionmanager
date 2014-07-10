@@ -105,11 +105,11 @@ generate_export_header(calapm EXPORT_FILE_NAME libpartitionmanager_export.h)
 
 target_link_libraries(calapm
     PRIVATE
-        KF5::ConfigCore
-        KF5::ConfigGui
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
+        KF5::ConfigCore
+        KF5::ConfigGui
         KF5::CoreAddons
         KF5::I18n
         KF5::KIOCore
