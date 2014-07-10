@@ -78,7 +78,9 @@ class LIBPARTITIONMANAGERPRIVATE_EXPORT Device : public QObject
 
 		QString prettyName() const;
 
+#ifndef CALAMARES
 	protected:
+#endif
 		void setPartitionTable(PartitionTable* ptable) { m_PartitionTable = ptable; }
 
 	private:
