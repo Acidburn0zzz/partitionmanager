@@ -32,7 +32,11 @@
 #include <QDebug>
 
 #include <KLocalizedString>
+#ifdef CALAMARES
+#include <kio/kmountpoint.h>
+#else
 #include <KIOCore/KMountPoint>
+#endif
 
 /** Creates a new Partition object.
 	@param parent the Partition's parent. May be another Partition (for logicals) or a PartitionTable. Must not be NULL.
