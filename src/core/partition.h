@@ -185,8 +185,14 @@ class LIBPARTITIONMANAGERPRIVATE_EXPORT Partition : public PartitionNode
 		void setMountPoint(const QString& s) { m_MountPoint = s; }
 		void setFlags(PartitionTable::Flags f) { m_ActiveFlags = f; }
 		void setSectorSize(qint32 s) { m_SectorSize = s; }
+#ifdef CALAMARES // ResizePartitionJob needs to be able to set first and last sectors
+	public:
+#endif
 		void setFirstSector(qint64 s) { m_FirstSector = s; }
 		void setLastSector(qint64 s) { m_LastSector = s; }
+#ifdef CALAMARES
+	protected:
+#endif
 		void move(qint64 newStartSector);
 		void setMounted(bool b) { m_IsMounted = b; }
 		void setFlag(PartitionTable::Flag f) { m_ActiveFlags |= f; }
