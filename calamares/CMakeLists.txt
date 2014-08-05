@@ -46,6 +46,8 @@ add_subdirectory(fatlabel)
 set(core_DIR ${pm_SOURCE_DIR}/core)
 set(core_SRCS
     ${core_DIR}/device.cpp
+    ${core_DIR}/copysourcedevice.cpp
+    ${core_DIR}/copytargetdevice.cpp
     ${core_DIR}/partition.cpp
     ${core_DIR}/partitionalignment.cpp
     ${core_DIR}/partitionnode.cpp
