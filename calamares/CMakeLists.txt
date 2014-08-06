@@ -82,6 +82,13 @@ set(util_SRCS
     ${util_DIR}/report.cpp
     )
 
+set(gui_DIR ${pm_SOURCE_DIR}/gui)
+set(gui_SRCS
+    ${gui_DIR}/partresizerwidget.cpp
+    ${gui_DIR}/partwidget.cpp
+    ${gui_DIR}/partwidgetbase.cpp
+    )
+
 include(kio/KMountPointChecks.cmake)
 configure_file(kio/config-kmountpoint.h.in ${CMAKE_CURRENT_BINARY_DIR}/config-kmountpoint.h)
 set(kio_SRCS
@@ -97,6 +104,7 @@ set(calapm_SRCS
     ${backend_SRCS}
     ${fs_SRCS}
     ${util_SRCS}
+    ${gui_SRCS}
     ${dummy_SRCS}
     ${libparted_SRCS}
     ${kio_SRCS}
