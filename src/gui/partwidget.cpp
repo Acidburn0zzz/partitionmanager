@@ -100,7 +100,14 @@ void PartWidget::resizeEvent(QResizeEvent*)
 
 QColor PartWidget::activeColor(const QColor& col) const
 {
+#ifdef CALAMARES
+	// Hack: Calamares provides the colors for the partition through the
+	// QPalette::Button color role, so we overwrite the `col` argument.
+	QColor c = palette().button().color();
+	return isActive() ? c.darker(190) : c;
+#else
 	return isActive() ? col.darker(190) : col;
+#endif
 }
 
 void PartWidget::paintEvent(QPaintEvent*)
